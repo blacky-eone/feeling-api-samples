@@ -10,7 +10,7 @@ wav, mp3, aiff, wma
 audio/x-wav, audio/mpeg, , audio/x-aiff, audio/x-ms-wma
 
 * ファイルサイズ
-上限：120MB
+上限：200MB
 
 * 音声ファイルの長さ
 上限：10分
