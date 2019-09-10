@@ -15,7 +15,11 @@ audio/x-wav, audio/mpeg, , audio/x-aiff, audio/x-ms-wma
 * 音声ファイルの長さ
 上限：10分
 
-## 月のリクエスト上限に達した場合
+## リクエスト上限に達した場合（無料トライアル）
+* 上限に達した時点でAPIがご利用いただけなくなります。
+* 引き続き利用をご希望の方は、support-feeling@pas-ta.ioまでお問い合わせください。
+
+## 月のリクエスト上限に達した場合（有償版）
 * APIはご利用いただけますが、超過リクエスト分の費用が発生いたします
 * 超過した場合は、レスポンスにその旨のメッセージが返却されます
 
@@ -50,14 +54,16 @@ curl -X POST <URI> -H 'Authorization: Bearer <AccessToken>' -F 'file=@/audio/sam
 |message|文字列|通常はsuccess。利用回数の上限に達していた場合は警告メッセージ（Usage upper limit exceeded）を表示する|
 |results|配列|解析結果の配列|
 |　id|数値|ID|
-|　result|真偽|1区間の解析判定|
+|　result|真偽|1区間の解析可否判定|
 |　from|数値|解析区間の始点(秒)|
 |　to|数値|解析区間の始点(秒)|
 |　count|数値|解析区間中の解析できた数(0.1秒単位)|
-|　feeling|数値|感情結果|
-|　level|数値|感情段階レベル（lv.0弱〜lv.3強）|
+|　feeling|文字列|感情結果|
+|　level|数値|感情段階レベル（lv.1弱〜lv.3強）|
 |  clipping|数値|クリッピング(音割れ)有無（0=なし、1=あり）|
-|　f1|数値|発話区間の声の周波数（だいたい250Hz以下なら男性）|
+|  fewData|数値|解析対象フレーム不足判定（0=なし、1=あり）|
+|  isNoisy|数値|ノイジー判定 （0=なし、1=あり）|
+|　f0|数値|発話区間の基本周波数|
 |　sps|数値|解析音源サンプリングレート|
 |　bit|数値|解析音源量子化ビット深度|
 |　msg|文字列|解析結果メッセージ|
@@ -67,32 +73,36 @@ curl -X POST <URI> -H 'Authorization: Bearer <AccessToken>' -F 'file=@/audio/sam
 	"code": 200,
 	"results": [
 		{
-			"bit": 16,
-			"clipping": 0,
-			"count": 30,
-			"f1": 1100,
-			"feeling": "happy",
-			"from": 0,
-			"id": 0,
-			"level": 4,
-			"msg": "Process Successful",
+			id": 0,
 			"result": true,
+			"from": 0.00,
+			"to": 1.40,
+			"count": 13,
+			"feeling": "normal",
+			"level": 1,
+			"clipping": 0,
+			"fewData": 0,
+			"isNoisy": 0,
+			"f0": 210,
 			"sps": 44100,
-			"to": 3.5
+			"bit": 16,
+			"msg": "Process Successful"
 		},
 		{
-			"bit": 16,
-			"clipping": 0,
-			"count": 2,
-			"f1": 270,
-			"feeling": "no result",
-			"from": 3.9,
 			"id": 1,
-			"level": 4,
-			"msg": "Not enough analyzed data",
 			"result": true,
+			"from": 2.30,
+			"to": 5.00,
+			"count": 18,
+			"feeling": "anger",
+			"level": 1,
+			"clipping": 0,
+			"fewData": 0,
+			"isNoisy": 0,
+			"f0": 320,
 			"sps": 44100,
-			"to": 4.1
+			"bit": 16,
+			"msg": "Process Successful"
 		}
 	],
 	"status": {
